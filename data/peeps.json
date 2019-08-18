@@ -1,0 +1,24 @@
+{
+    "Peeps": [
+        {
+            "firstname": "Hailey",
+            "lastname": "Patterson",
+            "favsong": "It's Lub"
+        },
+        {
+            "firstname": "Annie",
+            "lastname": "Buford",
+            "favsong": "Welcome to the Party"
+        },
+        {
+            "firstname": "Fola",
+            "lastname": "Thequeen",
+            "favsong": "How Great is Our God"
+        },
+        {
+            "firstname": "Rema",
+            "lastname": "Sky",
+            "favsong": "Feel the Groove"
+        }
+    ]
+}

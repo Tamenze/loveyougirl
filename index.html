@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hey Friend</title>
+</head>
+
+<body>
+
+    Hey Girl. This is your html page.
+    <h2>Graphql </h2>
+    <a href="/please">Press this button to see results from the database.</a>
+
+
+    <button onclick="loadResults()">Press me to get your shit</button>
+    <hr>
+    <ul id="herewego"></ul>
+
+    <script>
+        const loadResults = () => {
+            fetch("/please")
+                .then((response) => {
+                    console.log(response);
+                    if (response.status !== 200) {
+                        console.log(`Hmm. Problem. StatusCode: ${response.status}.`);
+                        return
+                    }
+                    return response.json()
+                })
+                .then(resp => {
+                    // console.log(resp);
+
+                    //SO I HAVE TO RETURN IT IN JSON TWICE? FOR SOME REASON??? 
+                    //IN THE EXPRESS SERVER ITS CONVERTED TO JSON BEFORE BEING SENT HERE
+                    //BUT SOMEHOW I STILL HAVE TO CALL .JSON() WITHIN FETCH TO GET IT READABLE....
+
+                    resp.data.people.map((item) => {
+                        document.getElementById("herewego").innerHTML +=
+                            `
+                        <li> 
+                            <ul>
+                                <li> ID: ${item.id} </li>
+                                <li> Name:  ${item.firstname} ${item.lastname} </li>
+                                <li> Favourite song: ${item.favsong} </li>
+                            </ul>
+                        </li>
+                        <br>
+                        `;
+                    })
+                }
+                )
+                .catch(function (err) {
+                    console.log('Fetch Error :-S', err);
+                });
+        }
+    </script>
+</body>
+
+</html>
