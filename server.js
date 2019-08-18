@@ -2,6 +2,7 @@ const Express = require("express");
 const Path = require('path');
 const ExpressGraphQL = require("express-graphql");
 const Mongoose = require("mongoose");
+
 const {
   graphql,
   GraphQLID,
@@ -11,14 +12,18 @@ const {
   GraphQLObjectType,
   GraphQLSchema
 } = require("graphql");
+const dotenv = require('dotenv');
+dotenv.config();
+
 
 // import Peeps from "./data/peeps.json";
 const Peeps = require("./data/peeps.json");
 
 var app = Express();
-
-// Mongoose.connect("mongodb://localhost/thepolyglotdeveloper");
-Mongoose.connect("mongodb://tolu:tolutolu3@ds263927.mlab.com:63927/scrapery", { useNewUrlParser: true });
+const name = process.env.DB_NAME;
+const pswd = process.env.DB_PSWD;
+// console.log(name, pswd);
+Mongoose.connect(`mongodb://${name}:${pswd}@ds263927.mlab.com:63927/scrapery`, { useNewUrlParser: true });
 
 const PersonModel = Mongoose.model("person", {
   firstname: String,
