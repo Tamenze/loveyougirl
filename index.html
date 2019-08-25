@@ -12,8 +12,18 @@
 
     Hey Girl. This is your html page.
     <h2>Graphql </h2>
-    <a href="/please">Press this button to see results from the database.</a>
+    <a href="/getAllUserz">Press this button to see straight JSON results from the database.</a>
 
+
+    <form action="/addNewUser" method="post">
+        First Name:
+        <input type="text" name="firstname" /> <br>
+        Last Name:
+        <input type="text" name="lastname" /> <br>
+        Favorite Song:
+        <input type="text" name="favsong" /> <br>
+        <input type="submit" />
+    </form>
 
     <button onclick="loadResults()">Press me to get your shit</button>
     <hr>
@@ -21,7 +31,7 @@
 
     <script>
         const loadResults = () => {
-            fetch("/please")
+            fetch("/getAllUserz")
                 .then((response) => {
                     console.log(response);
                     if (response.status !== 200) {

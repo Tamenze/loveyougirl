@@ -71,7 +71,7 @@ const schema = new GraphQLSchema({
     name: "Mutation",
     fields: {
       person: {
-        type: GraphQLNonNull(PersonType),
+        type: PersonType,
         args: {
           firstname: { type: GraphQLNonNull(GraphQLString) },
           lastname: { type: GraphQLNonNull(GraphQLString) },
@@ -86,9 +86,12 @@ const schema = new GraphQLSchema({
   })
 });
 
+app.use(Express.json()) // for parsing application/json
+app.use(Express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use("/graphql", ExpressGraphQL({
   schema: schema,
-  graphiql: true
+  graphiql: true, // If true, presents GraphiQL when the GraphQL endpoint is loaded in a browser
+  pretty: true,
 }));
 
 app.listen(3000, () => {
@@ -101,7 +104,47 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html')
 })
 
-app.get('/please', (req, res) => {
+// mutation CreatePerson($firstname: String!, $lastname: String!, $favsong: String) {
+//   person(firstname: $firstname, lastname: $lastname, favsong: $favsong) {
+//     id,
+//       firstname,
+//       lastname,
+//       favsong
+//   }
+// }
+
+///CURRENTLY NOT FUNCTIONING
+app.post('/addNewUser', (req, res) => {
+  console.log(req.body);
+  if (req.body.firstname && req.body.lastname && req.body.favsong) {
+    let mutation = `{
+      person(firstname: ${req.body.firstname}, lastname: ${req.body.lastname}, favsong: ${req.body.favsong}) {
+        id,
+        firstname,
+        lastname,
+        favsong
+      }
+    }
+    `;
+    graphql(schema, mutation).then(result => {
+      console.log(result);
+      // return result
+      // res.json(result);
+    });
+  } else {
+    console.log("incomplete person");
+    return
+  }
+
+  //check reference to figure out format
+  //make input form on index to figure out adding new obect
+  //this is just warm up for adding search to front end 
+
+})
+
+//search 
+
+app.get('/getAllUserz', (req, res) => {
   let query = `{
     people{
       id
